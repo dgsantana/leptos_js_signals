@@ -1,0 +1,12 @@
+[package]
+name = "leptos_js_signals"
+description = "A simple library to allow to use Leptos signals with JavaScript values from wasm_bindgen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+leptos = { version = "0.7.0-alpha"}
+thread_safe_jsvalue = { git = "https://github.com/dgsantana/thread_safe_jsvalue" }
+
+[patch.crates-io]
+leptos      = { git = "https://github.com/leptos-rs/leptos", branch = "leptos_0.7" }
