@@ -59,6 +59,10 @@ impl<T: 'static> JsRwSignal<T> {
     pub fn set(&self, value: T) {
         self.signal.set(ThreadSafeJsValue::new(value))
     }
+
+    pub fn set_untracked(&self, value: T) {
+        self.signal.update_untracked(|v| *v = ThreadSafeJsValue::new(value))
+    }
 }
 
 impl<T> DefinedAt for JsRwSignal<T> {
