@@ -106,10 +106,7 @@ impl<T: 'static> WithUntracked for JsRwSignal<T> {
     }
 }
 
-impl<T: 'static> With for JsRwSignal<T>
-where
-    T: Clone,
-{
+impl<T: 'static> With for JsRwSignal<T> {
     type Value = T;
 
     fn try_with<U>(&self, fun: impl FnOnce(&Self::Value) -> U) -> Option<U> {
