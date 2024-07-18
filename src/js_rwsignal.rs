@@ -19,6 +19,26 @@ impl<T> Clone for JsRwSignal<T> {
 
 impl<T> Copy for JsRwSignal<T> {}
 
+impl<T: Default + 'static> Default for JsRwSignal<T> {
+    fn default() -> Self {
+        Self::new(T::default())
+    }
+}
+
+impl<T: PartialEq> PartialEq for JsRwSignal<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.signal == other.signal
+    }
+}
+
+impl<T: Eq> Eq for JsRwSignal<T> {}
+
+impl<T> JsRwSignal<T> {
+    pub fn inner(&self) -> &RwSignal<ThreadSafeJsValue<T>> {
+        &self.signal
+    }
+}
+
 impl<T: 'static> JsRwSignal<T> {
     pub fn new(value: T) -> Self {
         Self {
@@ -61,7 +81,8 @@ impl<T: 'static> JsRwSignal<T> {
     }
 
     pub fn set_untracked(&self, value: T) {
-        self.signal.update_untracked(|v| *v = ThreadSafeJsValue::new(value))
+        self.signal
+            .update_untracked(|v| *v = ThreadSafeJsValue::new(value))
     }
 }
 

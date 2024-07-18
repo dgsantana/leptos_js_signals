@@ -23,6 +23,26 @@ impl<T: 'static> JsStoredValue<T> {
     }
 }
 
+impl<T: Default + 'static> Default for JsStoredValue<T> {
+    fn default() -> Self {
+        Self::new(T::default())
+    }
+}
+
+impl<T: PartialEq> PartialEq for JsStoredValue<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
+impl<T: Eq> Eq for JsStoredValue<T> {}
+
+impl<T> JsStoredValue<T> {
+    pub fn inner(&self) -> &StoredValue<ThreadSafeJsValue<T>> {
+        &self.value
+    }
+}
+
 impl<T: 'static> JsStoredValue<T> {
     pub fn set_value(&self, value: T) {
         self.value.set_value(ThreadSafeJsValue::new(value));
